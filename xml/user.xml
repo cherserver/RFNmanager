@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<mgrdata>
+  <metadata name="user" type="list" key="name">
+    <toolbar>
+      <toolbtn name="new" func="user.edit" type="new" img="t-new"/>
+      <toolbtn name="edit" func="user.edit" type="edit" img="t-edit" default="yes"/>
+      <toolbtn name="delete" func="user.delete" type="group" img="t-delete"/>
+      <toolsep/>
+      <toolbtn name="resume" func="user.resume" type="group" img="t-on"/>
+      <toolbtn name="suspend" func="user.suspend" type="group" img="t-off"/>
+      <toolsep/>
+      <toolbtn name="su" func="su" type="editlist" img="t-go">
+        <hide name="active" value="off"/>
+      </toolbtn>
+    </toolbar>
+    <coldata>
+      <col type="data" name="name" sort="alpha" sorted="yes"/>
+      <col name="status" sort="prop">
+        <xprop name="active" value="on" img="p-on" func="user.suspend"/>
+        <xprop name="active" value="off" img="p-off" func="user.resume"/>
+      </col>
+    </coldata>
+  </metadata>
+  <metadata name="user.edit" type="form">
+    <form>
+      <field name="name">
+        <input type="text" name="name" required="yes" check="username"/>
+      </field>
+      <field name="passwd">
+        <input type="password"  checkpasswd="confirm" name="passwd"/>
+      </field>
+      <field name="confirm">
+        <input type="password" name="confirm"/>
+      </field>
+    </form>
+  </metadata>
+  <lang name="en">
+    <messages name="user">
+      <msg name="title">User list</msg>
+      <msg name="name">Name</msg>
+      <msg name="status">Status</msg>
+      <msg name="msg_confirm_delete">Do you really want delete following users:</msg>
+      <msg name="msg_confirm_suspend">Do you really want suspend following user accounts:</msg>
+      <msg name="msg_confirm_resume">Do you really want resume following user accounts:</msg>
+    </messages>
+    <messages name="user.edit">
+      <msg name="title">Edit user</msg>
+      <msg name="title_new">Create new user</msg>
+      <msg name="passwd">Password</msg>
+      <msg name="confirm">Confirm</msg>
+      <include name="user"/>
+    </messages>
+    <messages name="mgrerror_exists">
+      <msg name="user">User</msg>
+    </messages>
+  </lang>
+</mgrdata>
+

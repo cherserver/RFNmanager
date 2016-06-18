@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<mgrdata>
+  <mainmenu level="admin+">
+    <node name="srvset">
+	  <node name="user"/>
+	</node>
+  </mainmenu>
+  <lang name="ru">
+    <messages name="desktop">
+	  <msg name="menu_user">Users</msg>
+	</messages>
+  </lang>
+</mgrdata>
