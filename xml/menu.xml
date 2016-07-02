@@ -5,7 +5,7 @@
 	  <node name="user"/>
 	</node>
   </mainmenu>
-  <lang name="ru">
+  <lang name="en">
     <messages name="desktop">
 	  <msg name="menu_user">Users</msg>
 	</messages>

@@ -23,9 +23,8 @@ MODULE_INIT(rfndb, "") {
 	params.type = "sqlite";
 	params.db = "etc/rfnmgr.db";
 	params.client = "rfnmgr";
-	rfndb::cache = new mgr_db::JobCache(params);
+	isp_api::RegisterComponent(rfndb::cache = new mgr_db::JobCache(params));
 	rfndb::GetCache()->Register<rfndb::User>();
-	isp_api::RegisterComponent(cache);
 }
 } // end of rfnpriv_tables namespace
 
