@@ -1,3 +1,7 @@
 /.ptp-sync/
 .directory
 .ptp-sync-folder
+*.a
+*.o
+*.so
+*.so.*
