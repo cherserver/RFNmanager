@@ -2,6 +2,14 @@
 #include <api/module.h>
 
 namespace rfndb {
+mgr_db::ConnectionParams GetConnectionParams() {
+	mgr_db::ConnectionParams params;
+	params.type = "sqlite";
+	params.db = "etc/rfnmgr.db";
+	params.client = "rfnmgr";
+	return params;
+}
+
 mgr_db::JobCache *cache = nullptr;
 
 mgr_db::JobCache * GetCache() {
@@ -23,7 +31,7 @@ MODULE_INIT(rfndb, "") {
 	params.type = "sqlite";
 	params.db = "etc/rfnmgr.db";
 	params.client = "rfnmgr";
-	isp_api::RegisterComponent(rfndb::cache = new mgr_db::JobCache(params));
+	isp_api::RegisterComponent(rfndb::cache = new mgr_db::JobCache(rfndb::GetConnectionParams()));
 	rfndb::GetCache()->Register<rfndb::User>();
 }
 } // end of rfnpriv_tables namespace

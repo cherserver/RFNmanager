@@ -5,3 +5,5 @@
 *.o
 *.so
 *.so.*
+/external
+/lib

@@ -1,7 +1,9 @@
+#include "radio.h"
 #include <mgr/mgrclient.h>
 #include <mgr/mgrlog.h>
 #include <mgr/mgrstr.h>
 #include <mgr/mgrthread.h>
+#include <mgr/mgrproc.h>
 #include <api/action.h>
 #include <api/module.h>
 
@@ -74,6 +76,7 @@ public:
 						case 'C': HandleDHT(header.type, header); break;
 						case 'I': HandleDHT(header.type, header); break;
 						case 'O': HandleDHT(header.type, header); break;
+						case 'P': HandlePressure(header); break;
 						case 'R': HandleButton(header); break;
 						default:
 							m_network->read(header, 0, 0);
@@ -81,6 +84,7 @@ public:
 							break;
 					};
 				}
+				mgr_proc::Sleep(100);
 			} catch (const mgr_err::Error &e) {
 				Warning("Exception in radio process thread: %s", e.what());
 			} catch(...) {
@@ -100,7 +104,7 @@ public:
 			return;
 		mgr_client::Local cli(MGR, "radio_data");
 		cli.AddParam("alarm", string(1, message));
-		cli.Query("func=button");
+		cli.Query("func=" ALARM_ACTION);
 	}
 
 	void HandleButton(RF24NetworkHeader& header) const {
@@ -110,7 +114,7 @@ public:
 			return;
 		mgr_client::Local cli(MGR, "radio_data");
 		cli.AddParam("button", str::Str(message));
-		cli.Query("func=button");
+		cli.Query("func=" BUTTON_ACTION);
 	}
 
 	void HandleDHT(unsigned char msg_type, RF24NetworkHeader& header) const {
@@ -122,7 +126,17 @@ public:
 		cli.AddParam("msgtype", string(1, msg_type));
 		cli.AddParam("temp", str::Str(DHTData[0], 3));
 		cli.AddParam("hum", str::Str(DHTData[1], 3));
-		cli.Query("func=dhtdata");
+		cli.Query("func=" DHTDATA_ACTION);
+	}
+
+	void HandlePressure(RF24NetworkHeader& header) const {
+		uint16_t message;
+		m_network->read(header, &message, sizeof(message));
+		if (!IsCallable())
+			return;
+		mgr_client::Local cli(MGR, "radio_data");
+		cli.AddParam("value", str::Str(message));
+		cli.Query("func=" PRESSURE_ACTION);
 	}
 private:
 	RF24 *m_radio;
@@ -136,13 +150,19 @@ private:
 class HandlingAction : public Action {
 public:
 	HandlingAction(const string &action_name) : Action(action_name, MinLevel(lvSuper)) {}
+
+	virtual bool IsModify(const Session &ses) const {
+		return false;
+	}
+private:
 	virtual void Execute(Session &ses) const {}
 };
 
 MODULE_INIT(radio, "rfndb") {
-	new HandlingAction("alarm");
-	new HandlingAction("button");
-	new HandlingAction("dhtdata");
+	new HandlingAction(ALARM_ACTION);
+	new HandlingAction(BUTTON_ACTION);
+	new HandlingAction(DHTDATA_ACTION);
+	new HandlingAction(PRESSURE_ACTION);
 	radio_proc = isp_api::RegisterComponent(new RadioProcessor);
 }
 
