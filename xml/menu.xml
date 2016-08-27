@@ -3,11 +3,33 @@
   <mainmenu level="admin+">
     <node name="srvset">
 	  <node name="user"/>
+	  <node name="weather_types"/>
+	</node>
+	<node name="stat" first="yes">
+	  <node name="weather_hourly"/>
+	  <node name="weather_daily"/>
+	  <node name="dhtdata_hourly"/>
+	  <node name="dhtdata_daily"/>
 	</node>
   </mainmenu>
   <lang name="en">
     <messages name="desktop">
 	  <msg name="menu_user">Users</msg>
+	  <msg name="menu_weather_types">Weather types</msg>
+	  <msg name="menu_weather_hourly">Weather by hours</msg>
+	  <msg name="menu_weather_daily">Weather by days</msg>
+	  <msg name="menu_dhtdata_hourly">Measures by hours</msg>
+	  <msg name="menu_dhtdata_daily">Measures by days</msg>
+	</messages>
+  </lang>
+  <lang name="ru">
+    <messages name="desktop">
+	  <msg name="menu_user">Пользователи</msg>
+	  <msg name="menu_weather_types">Типы погоды</msg>
+	  <msg name="menu_weather_hourly">Погода по часам</msg>
+	  <msg name="menu_weather_daily">Погода по дням</msg>
+	  <msg name="menu_dhtdata_hourly">Измерения по часам</msg>
+	  <msg name="menu_dhtdata_daily">Измерения по дням</msg>
 	</messages>
   </lang>
 </mgrdata>

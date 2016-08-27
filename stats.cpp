@@ -15,7 +15,7 @@ namespace rfnpriv_stats {
 using namespace isp_api;
 using namespace Stat;
 
-std::shared_ptr<mgr_db::Cache> stat_cache;
+std::shared_ptr<mgr_db::JobCache> stat_cache;
 
 class AvgDataField : public DataField {
 public:
@@ -83,12 +83,14 @@ public:
 
 class PressureStatRecordset : public Recordset {
 public:
+	KeyField DataType;
 	AvgDataField Pressure;
 
 	virtual string Name() const { return "pressurestat"; }
 
 	PressureStatRecordset()
-	: Pressure(this, "pressure") {}
+	: DataType(this, "datatype")
+	, Pressure(this, "pressure") {}
 };
 
 class PressureHourlyStatTable : public DataTable<PressureStatRecordset> {
@@ -142,6 +144,7 @@ public:
 private:
 	virtual void AfterExecute(Session &ses) const {
 		PressureStatRecordset pres_stat;
+		pres_stat.DataType = "C"; //common
 		pres_stat.Pressure = str::Double(ses.Param("value"));
 
 		pres_stat.Normalize();
@@ -151,7 +154,7 @@ private:
 
 MODULE_INIT(stats, "radio") {
 	mgr_cf::AddParam(STAT_YEARS_PARAM, "10");
-	stat_cache.reset(new mgr_db::Cache(rfndb::GetConnectionParams()));
+	stat_cache.reset(new mgr_db::JobCache(rfndb::GetConnectionParams()));
 	StatUtils::InitStatsDB(stat_cache);
 
 	stat_cache->Register<DHTHourlyStatTable>();

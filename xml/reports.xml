@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<mgrdata>
+  <metadata name="weather_hourly" type="report">
+    <form>
+      <period name="period" default="today"/>
+    </form>
+    <band name="indoor_weather" hidden="yes">
+      <diagram name="indoor_weather" label="begin_i" type="line">
+        <line data="temperature_i"/>
+        <line data="humidity_i"/>
+      </diagram>
+      <col name="begin_i" type="data" sorted="yes" total="count"/>
+      <col name="temperature_i" type="data" sort="digit"/>
+      <col name="humidity_i" type="data" sort="digit"/>
+    </band>
+    <band name="outdoor_weather" hidden="yes">
+      <diagram name="outdoor_weather" label="begin_o" type="line">
+        <line data="temperature_o"/>
+        <line data="humidity_o"/>
+      </diagram>
+      <col name="begin_o" type="data" sorted="yes" total="count"/>
+      <col name="temperature_o" type="data" sort="digit"/>
+      <col name="humidity_o" type="data" sort="digit"/>
+    </band>
+    <band name="pressure" hidden="yes">
+      <diagram name="pressure" label="begin_p" type="line">
+        <line data="pressure"/>
+      </diagram>
+      <col name="begin_p" type="data" sorted="yes" total="count"/>
+      <col name="pressure" type="data" sort="digit"/>
+    </band>
+  </metadata>
+  <metadata name="weather_daily" type="report">
+    <include name="weather_hourly"/>
+  </metadata>
+  <metadata name="dhtdata_hourly" type="report">
+    <form>
+      <field name="weather_type">
+        <select name="weather_type"/>
+      </field>
+      <period name="period" default="today"/>
+    </form>
+    <band name="dhtdata">
+      <diagram name="dhtdata" label="begin" type="line">
+        <line data="temperature"/>
+        <line data="humidity"/>
+      </diagram>
+      <col name="begin" type="data" sorted="yes" total="count"/>
+      <col name="temperature" type="data" sort="digit"/>
+      <col name="humidity" type="data" sort="digit"/>
+    </band>
+  </metadata>
+  <metadata name="dhtdata_daily" type="report">
+    <include name="dhtdata_hourly"/>
+  </metadata>
+  <lang name="en">
+    <messages name="weather_hourly">
+      <msg name="title">Weather by hours</msg>
+      <msg name="report_info">Displays weather by hours</msg>
+      <msg name="table_indoor_weather">Indoor weather</msg>
+      <msg name="table_outdoor_weather">Outdoor weather</msg>
+      <msg name="table_pressure">Pressure</msg>
+      <msg name="diagram_indoor_weather">Indoor weather</msg>
+      <msg name="diagram_outdoor_weather">Outdoor weather</msg>
+      <msg name="diagram_pressure">Pressure</msg>
+      <msg name="begin">Date</msg>
+      <msg name="begin_i">Date</msg>
+      <msg name="begin_o">Date</msg>
+      <msg name="begin_p">Date</msg>
+      <msg name="temperature">Temperature</msg>
+      <msg name="temperature_i">Temperature</msg>
+      <msg name="temperature_o">Temperature</msg>
+      <msg name="humidity">Humidity</msg>
+      <msg name="humidity_i">Humidity</msg>
+      <msg name="humidity_o">Humidity</msg>
+      <msg name="pressure">Pressure</msg>
+    </messages>
+    <messages name="weather_daily">
+      <msg name="title">Weather by days</msg>
+      <msg name="report_info">Displays weather by days</msg>
+      <include name="weather_hourly"/>
+    </messages>
+    <messages name="dhtdata_hourly">
+      <msg name="title">Measurements by hours</msg>
+      <msg name="report_info">Displays temperature data, grouped by hours</msg>
+      <msg name="weather_type">Weather type</msg>
+      <msg name="hint_weather_type">Weather type, related to data message type</msg>
+      <msg name="table_dhtdata">Measurements</msg>
+      <msg name="diagram_dhtdata">Measurements</msg>
+      <include name="weather_hourly"/>
+    </messages>
+    <messages name="dhtdata_daily">
+      <msg name="title">Measurements by days</msg>
+      <msg name="report_info">Displays temperature data, grouped by days</msg>
+      <include name="dhtdata_hourly"/>
+    </messages>
+  </lang>
+  <lang name="ru">
+    <messages name="weather_hourly">
+      <msg name="title">Погода по часам</msg>
+      <msg name="report_info">Отображает погоду по часам за выбранный период</msg>
+      <msg name="table_indoor_weather">Погода в помещении</msg>
+      <msg name="table_outdoor_weather">Погода на улице</msg>
+      <msg name="table_pressure">Давление</msg>
+      <msg name="diagram_indoor_weather">Погода в помещении</msg>
+      <msg name="diagram_outdoor_weather">Погода на улице</msg>
+      <msg name="diagram_pressure">Давление</msg>
+      <msg name="begin">Дата</msg>
+      <msg name="begin_i">Дата</msg>
+      <msg name="begin_o">Дата</msg>
+      <msg name="begin_p">Дата</msg>
+      <msg name="temperature">Температура</msg>
+      <msg name="temperature_i">Температура</msg>
+      <msg name="temperature_o">Температура</msg>
+      <msg name="humidity">Влажность</msg>
+      <msg name="humidity_i">Влажность</msg>
+      <msg name="humidity_o">Влажность</msg>
+      <msg name="pressure">Давление</msg>
+    </messages>
+    <messages name="weather_daily">
+      <msg name="title">Погода по дням</msg>
+      <msg name="report_info">Отображает погоду по дням</msg>
+      <include name="weather_hourly"/>
+    </messages>
+    <messages name="dhtdata_hourly">
+      <msg name="title">Измерения по часам</msg>
+      <msg name="report_info">Отображает измерения датчиков с группировкой по часам</msg>
+      <msg name="weather_type">Тип погоды</msg>
+      <msg name="hint_weather_type">Тип погоды, связанный с типом сообщения датчика</msg>
+      <msg name="table_dhtdata">Измерения</msg>
+      <msg name="diagram_dhtdata">Измерения</msg>
+      <include name="weather_hourly"/>
+    </messages>
+    <messages name="dhtdata_daily">
+      <msg name="title">Измерения по дням</msg>
+      <msg name="report_info">Отображает измерения датчиков с группировкой по дням</msg>
+      <include name="dhtdata_hourly"/>
+    </messages>
+  </lang>
+</mgrdata>

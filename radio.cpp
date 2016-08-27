@@ -18,6 +18,8 @@
 #define RADIO_REC_BATH_ALARM 03
 #define BROADCAST_LEVEL 1
 
+#define NETWORK_DELAY 50
+
 MODULE("radio");
 
 namespace rfnpriv_radio {
@@ -84,7 +86,7 @@ public:
 							break;
 					};
 				}
-				mgr_proc::Sleep(100);
+				mgr_proc::Sleep(NETWORK_DELAY);
 			} catch (const mgr_err::Error &e) {
 				Warning("Exception in radio process thread: %s", e.what());
 			} catch(...) {

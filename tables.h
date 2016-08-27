@@ -5,6 +5,7 @@
 namespace rfndb {
 mgr_db::ConnectionParams GetConnectionParams();
 mgr_db::JobCache * GetCache();
+string Escape(const string &value);
 
 class User : public mgr_db::Table {
 public:
@@ -12,6 +13,15 @@ public:
 	mgr_db::StringField Password;
 
 	User();
+};
+
+class WeatherTypes : public mgr_db::Table {
+public:
+	mgr_db::BoolField Main;
+	mgr_db::BoolField Outdoor;
+	mgr_db::StringField MsgType;
+
+	WeatherTypes();
 };
 } //end of rfndb namespace
 

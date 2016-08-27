@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<mgrdata>
+  <metadata name="weather_types" type="list" key="name">
+    <toolbar>
+      <toolbtn name="new" func="weather_types.edit" type="new" img="t-new"/>
+      <toolbtn name="edit" func="weather_types.edit" type="edit" img="t-edit" default="yes"/>
+      <toolbtn name="delete" func="weather_types.delete" type="group" img="t-delete"/>
+    </toolbar>
+    <coldata>
+      <col type="data" name="name" sort="alpha" sorted="yes"/>
+      <col type="data" name="msg_type" sort="alpha" sorted="yes"/>
+      <col name="status" sort="prop">
+        <xprop name="main" value="on" img="p-lt3"/>
+        <xprop name="outdoor" value="on" img="p-umbrellaon"/>
+      </col>
+    </coldata>
+  </metadata>
+  <metadata name="weather_types.edit" type="form">
+    <form>
+      <field name="name">
+        <input type="text" name="name" required="yes"/>
+      </field>
+      <field name="msg_type">
+        <input type="text" name="msg_type" required="yes"/>
+      </field>
+      <field name="main">
+        <input type="checkbox" name="main"/>
+      </field>
+      <field name="outdoor">
+        <input type="checkbox" name="outdoor"/>
+      </field>
+    </form>
+  </metadata>
+  <lang name="en">
+    <messages name="weather_types">
+      <msg name="title">Weather types list</msg>
+      <msg name="name">Name</msg>
+      <msg name="hint_name">Human readable weather type name</msg>
+      <msg name="msg_type">Msg type</msg>
+      <msg name="hint_msg_type">Radio message type</msg>
+      <msg name="status">Status</msg>
+      <msg name="hint_status">Additional info</msg>
+      <msg name="msg_confirm_delete">Do you really want delete following weather types:</msg>
+      <msg name="hint_p_main_on">Main weather type</msg>
+      <msg name="hint_p_outdoor_on">Outdoor weather data</msg>
+      <msg name="main">Main</msg>
+      <msg name="outdoor">Outdoor</msg>
+      <msg name="hint_main">Weather type is main weather data</msg>
+      <msg name="hint_outdoor">Weather type represents outdoor weather data</msg>
+    </messages>
+    <messages name="weather_types.edit">
+      <msg name="title">Edit weather type</msg>
+      <msg name="title_new">Create new weather type</msg>
+      <include name="weather_types"/>
+    </messages>
+    <messages name="mgrerror_exists">
+      <msg name="weather_types">Weather type</msg>
+    </messages>
+  </lang>
+  <lang name="ru">
+    <messages name="weather_types">
+      <msg name="title">Список типов погоды</msg>
+      <msg name="name">Имя</msg>
+      <msg name="hint_name">Понятное наименование типа погоды</msg>
+      <msg name="msg_type">Тип сообщения</msg>
+      <msg name="hint_msg_type">Тип радио-сообщения</msg>
+      <msg name="status">Статус</msg>
+      <msg name="hint_status">Дополнительные сведения</msg>
+      <msg name="msg_confirm_delete">Вы действительно желаете удалить типы погоды:</msg>
+      <msg name="hint_p_main_on">Основной</msg>
+      <msg name="hint_p_outdoor_on">Уличный</msg>
+      <msg name="main">Основной</msg>
+      <msg name="outdoor">Уличный</msg>
+      <msg name="hint_main">Представляет основной тип погоды</msg>
+      <msg name="hint_outdoor">Представляет уличный тип погоды</msg>
+    </messages>
+    <messages name="weather_types.edit">
+      <msg name="title">Изменить тип погоды</msg>
+      <msg name="title_new">Создать новый тип погоды</msg>
+      <include name="weather_types"/>
+    </messages>
+    <messages name="mgrerror_exists">
+      <msg name="weather_types">Weather type</msg>
+    </messages>
+  </lang>
+</mgrdata>
