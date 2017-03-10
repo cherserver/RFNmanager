@@ -6,9 +6,12 @@
 #include <mgr/mgrproc.h>
 #include <api/action.h>
 #include <api/module.h>
+#include <api/autotask.h>
 
 #include <RF24/RF24.h>
 #include <RF24Network/RF24Network.h>
+
+#define SEND_TIME_ACTION "sendtime"
 
 //RADIO_NETWORK
 #define RADIO_CHANNEL 55
@@ -33,6 +36,7 @@ public:
 	, m_init(false)
 	, m_stop(false)
 	, m_can_call(false)
+	, m_send_time(false)
 	, m_thread(mgr_thread::RunIt(this)) {
 		Init();
 	}
@@ -40,6 +44,10 @@ public:
 	~RadioProcessor() {
 		m_stop = true;
 		m_thread.join();
+	}
+
+	void SendTime() {
+		m_send_time = true;
 	}
 
 	void Init() {
@@ -86,6 +94,12 @@ public:
 							break;
 					};
 				}
+
+				if (m_send_time) {
+					RealSendTime();
+					m_send_time = false;
+				}
+
 				mgr_proc::Sleep(NETWORK_DELAY);
 			} catch (const mgr_err::Error &e) {
 				Warning("Exception in radio process thread: %s", e.what());
@@ -146,7 +160,28 @@ private:
 	bool m_init;
 	bool m_stop;
 	bool m_can_call;
+	bool m_send_time;
 	mgr_thread::Handle m_thread;
+
+
+
+	void RealSendTime() {
+		STrace();
+		mgr_date::DateTime now;
+		RF24NetworkHeader header(RADIO_REC_MASTER, 'T');
+
+		uint16_t curr_time[7] = {
+			(uint16_t) now.year()
+			, (uint16_t) now.month()
+			, (uint16_t) now.day()
+			, (uint16_t) now.hour()
+			, (uint16_t) now.minute()
+			, (uint16_t) now.sec()
+			, (uint16_t) (now.weekday() + 1)
+		};
+
+		m_network->multicast(header, &curr_time, sizeof(curr_time), BROADCAST_LEVEL);
+	}
 } * radio_proc = nullptr;
 
 class HandlingAction : public Action {
@@ -160,12 +195,36 @@ private:
 	virtual void Execute(Session &ses) const {}
 };
 
+class SendTimeAction : public Action {
+public:
+	SendTimeAction() : Action(SEND_TIME_ACTION, MinLevel(lvSuper)) {}
+
+	virtual bool IsModify(const Session &ses) const {
+		return false;
+	}
+
+private:
+	virtual void Execute(Session &ses) const {
+		if (radio_proc == nullptr)
+			return;
+
+		radio_proc->SendTime();
+	}
+};
+
 MODULE_INIT(radio, "rfndb") {
 	new HandlingAction(ALARM_ACTION);
 	new HandlingAction(BUTTON_ACTION);
 	new HandlingAction(DHTDATA_ACTION);
 	new HandlingAction(PRESSURE_ACTION);
 	radio_proc = isp_api::RegisterComponent(new RadioProcessor);
+
+	new SendTimeAction;
+	isp_api::task::Schedule(
+			mgr_file::ConcatPath(mgr_file::GetCurrentDir(), "sbin/mgrctl")
+				+ " -m " + isp_api::GetMgrName() + " " SEND_TIME_ACTION
+			, "5 4 * * *", "RFNmanager task to send time"
+	);
 }
 
 MODULE_INIT(radio_avail, "radio mgr:services") {
